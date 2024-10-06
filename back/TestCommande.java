@@ -1,3 +1,4 @@
+package back;
 public class TestCommande {
     public static void main(String[] args) {
         // Test 1: Créer une commande pour un client avec ID 1

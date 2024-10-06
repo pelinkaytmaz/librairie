@@ -1,3 +1,4 @@
+package back;
 public class TestFacture {
     public static void main(String[] args) {
         // Test 1: Ajouter une nouvelle facture

@@ -1,3 +1,4 @@
+package back;
 public class TestPanier {
     public static void main(String[] args) {
         // Test 1: Créer un panier pour un client avec ID 1
