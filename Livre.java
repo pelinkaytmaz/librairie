@@ -2,34 +2,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Livre {
-    private int id;
+    private int livre_id;
     private String titre;
-    private int auteurId;  // ID de l'auteur dans une table "auteurs"
-    private int genreId;  // ID du genre littéraire dans une table "genres"
+    private int auteur_id;  // ID de l'auteur dans une table "auteurs"
+    private int genre_id;  // ID du genre littéraire dans une table "genres"
     private double prix;
     private String description;
     private int stock;
 
     // Constructeur
-    public Livre(int id, String titre, int auteurId, int genreId, double prix, String description, int stock) {
-        this.id = id;
+    public Livre(String titre, int auteur_id, int genre_id, double prix, String description, int stock) {
         this.titre = titre;
-        this.auteurId = auteurId;
-        this.genreId = genreId;
+        this.auteur_id = auteur_id;
+        this.genre_id = genre_id;
         this.prix = prix;
         this.description = description;
         this.stock = stock;
     }
 
     // Getters et Setters
-    public int getId() {
-        return id;
+    public int getLivreId() {
+        return livre_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLivreId(int livre_id) {
+        this.livre_id = livre_id;
     }
 
     public String getTitre() {
@@ -41,19 +42,19 @@ public class Livre {
     }
 
     public int getAuteurId() {
-        return auteurId;
+        return auteur_id;
     }
 
-    public void setAuteurId(int auteurId) {
-        this.auteurId = auteurId;
+    public void setAuteurId(int auteur_id) {
+        this.auteur_id = auteur_id;
     }
 
     public int getGenreId() {
-        return genreId;
+        return genre_id;
     }
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
+    public void setGenreId(int genre_id) {
+        this.genre_id = genre_id;
     }
 
     public double getPrix() {
@@ -82,44 +83,47 @@ public class Livre {
 
     // Méthodes CRUD
 
-    // Ajouter un livre
     public void ajouterLivre() {
-        String query = "INSERT INTO livres (id, titre, auteur_id, genre_id, prix, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+        String query = "INSERT INTO livres (titre, auteur_id, genre_id, prix, description, stock) VALUES (?, ?, ?, ?, ?, ?)";
+    
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
-            stmt.setInt(1, this.id);
-            stmt.setString(2, this.titre);
-            stmt.setInt(3, this.auteurId);
-            stmt.setInt(4, this.genreId);
-            stmt.setDouble(5, this.prix);
-            stmt.setString(6, this.description);
-            stmt.setInt(7, this.stock);
-
+             PreparedStatement stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+    
+            stmt.setString(1, this.titre);
+            stmt.setInt(2, this.auteur_id);
+            stmt.setInt(3, this.genre_id);
+            stmt.setDouble(4, this.prix);
+            stmt.setString(5, this.description);
+            stmt.setInt(6, this.stock);
+    
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    this.livre_id = generatedKeys.getInt(1); // Met à jour l'ID du livre
+                }
                 System.out.println("Livre ajouté: " + this.titre);
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de l'ajout du livre: " + e.getMessage());
         }
     }
+    
 
     // Modifier un livre
     public void modifierLivre() {
-        String query = "UPDATE livres SET titre = ?, auteur_id = ?, genre_id = ?, prix = ?, description = ?, stock = ? WHERE id = ?";
+        String query = "UPDATE livres SET titre = ?, auteur_id = ?, genre_id = ?, prix = ?, description = ?, stock = ? WHERE livre_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             
             stmt.setString(1, this.titre);
-            stmt.setInt(2, this.auteurId);
-            stmt.setInt(3, this.genreId);
+            stmt.setInt(2, this.auteur_id);
+            stmt.setInt(3, this.genre_id);
             stmt.setDouble(4, this.prix);
             stmt.setString(5, this.description);
             stmt.setInt(6, this.stock);
-            stmt.setInt(7, this.id);
+            stmt.setInt(7, this.livre_id);
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -130,38 +134,47 @@ public class Livre {
         }
     }
 
-    // Supprimer un livre
-    public void supprimerLivre() {
-        String query = "DELETE FROM livres WHERE id = ?";
+    // // Supprimer un livre
+    // public void supprimerLivre() {
+    //     String query = "DELETE FROM livres WHERE livre_id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+    //     try (Connection conn = DatabaseConnection.getConnection();
+    //          PreparedStatement stmt = conn.prepareStatement(query)) {
             
-            stmt.setInt(1, this.id);
+    //         stmt.setInt(1, this.livre_id);
 
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Livre supprimé: " + this.titre);
+    //         int rowsAffected = stmt.executeUpdate();
+    //         if (rowsAffected > 0) {
+    //             System.out.println("Livre supprimé: " + this.titre);
+    //         }
+    //     } catch (SQLException e) {
+    //         System.out.println("Erreur lors de la suppression du livre: " + e.getMessage());
+    //     }
+    // }
+
+    // Rechercher un livre par mots-clés
+    public static List<Livre> rechercherLivre(String[] motsCles) {
+        List<Livre> livresTrouves = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM livres WHERE ");
+
+        for (int i = 0; i < motsCles.length; i++) {
+            query.append("titre LIKE ?");
+            if (i < motsCles.length - 1) {
+                query.append(" OR ");
             }
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de la suppression du livre: " + e.getMessage());
         }
-    }
-
-    // Rechercher un livre par titre
-    public static Livre rechercherLivreParTitre(String titre) {
-        String query = "SELECT * FROM livres WHERE titre = ?";
-        Livre livre = null;
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            
-            stmt.setString(1, titre);
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+
+            for (int i = 0; i < motsCles.length; i++) {
+                stmt.setString(i + 1, "%" + motsCles[i] + "%");
+            }
+
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                livre = new Livre(
-                    rs.getInt("id"),
+            while (rs.next()) {
+                Livre livre = new Livre(
                     rs.getString("titre"),
                     rs.getInt("auteur_id"),
                     rs.getInt("genre_id"),
@@ -169,20 +182,20 @@ public class Livre {
                     rs.getString("description"),
                     rs.getInt("stock")
                 );
-                System.out.println("Livre trouvé: " + livre.getTitre());
-            } else {
-                System.out.println("Livre non trouvé: " + titre);
+                livresTrouves.add(livre);
             }
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de la recherche du livre: " + e.getMessage());
+
+         } catch (SQLException e) {
+            System.out.println("Erreur lors de la recherche des livres: " + e.getMessage());
         }
 
-        return livre;
+        return livresTrouves;
     }
+
 
     // Afficher les informations du livre
     public void afficherLivre() {
-        System.out.println("Livre: " + this.titre + ", Auteur ID: " + this.auteurId + ", Genre ID: " + this.genreId +
+        System.out.println("Livre: " + this.titre + ", Auteur ID: " + this.auteur_id + ", Genre ID: " + this.genre_id +
                            ", Prix: " + this.prix + ", Stock: " + this.stock + ", Description: " + this.description);
     }
 }

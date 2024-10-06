@@ -3,12 +3,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/librairie";  // À adapter
-    private static final String USERNAME = "root";  // Nom d'utilisateur MySQL
-    private static final String PASSWORD = "password";  // Mot de passe MySQL
 
-    // Méthode pour obtenir une connexion à la BD
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    public static Connection getConnection() {
+        String url = "jdbc:mysql://localhost:3307/librairie?serverTimezone=UTC"; // Assurez-vous que l'URL est correcte
+        String username = "root"; // Votre nom d'utilisateur
+        String password = ""; // Votre mot de passe
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Charger le pilote JDBC
+            return DriverManager.getConnection(url, username, password);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Pilote JDBC non trouvé: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erreur de connexion à la base de données: " + e.getMessage());
+        }
+        return null; // Retourne null si la connexion échoue
     }
 }
