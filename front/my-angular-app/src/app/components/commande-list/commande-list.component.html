@@ -1,0 +1,25 @@
+<div class="commande-list">
+    <h2>Liste des commandes</h2>
+    <table>
+      <tr>
+        <th>ID Commande</th>
+        <th>ID Client</th>
+        <th>Date</th>
+        <th>Montant Total</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+      <tr *ngFor="let commande of commandes">
+        <td>{{ commande.commande_id }}</td>
+        <td>{{ commande.client_id }}</td>
+        <td>{{ commande.date_commande }}</td>
+        <td>{{ commande.montant_total | currency }}</td>
+        <td>{{ commande.statut }}</td>
+        <td>
+          <button [routerLink]="['/edit', commande.commande_id]">Modifier</button>
+          <button (click)="supprimerCommande(commande.commande_id)">Supprimer</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  

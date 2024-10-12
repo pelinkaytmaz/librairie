@@ -1,0 +1,24 @@
+<div class="commande-form">
+    <h2>{{ isEditMode ? 'Modifier la commande' : 'Ajouter une commande' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="client_id">ID Client:</label>
+      <input type="number" [(ngModel)]="commande.client_id" name="client_id" required />
+  
+      <label for="date_commande">Date de la commande:</label>
+      <input type="date" [(ngModel)]="commande.date_commande" name="date_commande" required />
+  
+      <label for="montant_total">Montant total:</label>
+      <input type="number" [(ngModel)]="commande.montant_total" name="montant_total" required />
+  
+      <label for="statut">Statut:</label>
+      <select [(ngModel)]="commande.statut" name="statut" required>
+        <option value="en cours">En cours</option>
+        <option value="validée">Validée</option>
+        <option value="livrée">Livrée</option>
+        <option value="annulée">Annulée</option>
+      </select>
+  
+      <button type="submit">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</button>
+    </form>
+  </div>
+  

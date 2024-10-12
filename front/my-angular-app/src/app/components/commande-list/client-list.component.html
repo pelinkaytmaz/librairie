@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <h2>Liste des Clients</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Adresse</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td>{{ client.nom }}</td>
+          <td>{{ client.prenom }}</td>
+          <td>{{ client.email }}</td>
+          <td>{{ client.telephone }}</td>
+          <td>{{ client.adresse }}</td>
+          <td>
+            <button class="btn btn-warning" (click)="modifier(client)">Modifier</button>
+            <button class="btn btn-danger" (click)="supprimer(client.id)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
