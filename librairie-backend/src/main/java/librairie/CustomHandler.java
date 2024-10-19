@@ -9,6 +9,9 @@ import java.sql.Statement;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+/**
+ * TEST HANDLER
+ */
 public class CustomHandler implements HttpHandler {
 
     @Override
