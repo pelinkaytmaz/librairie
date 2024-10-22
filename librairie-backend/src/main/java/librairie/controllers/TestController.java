@@ -16,12 +16,14 @@ public class TestController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String response = "<b>Bonjour sur l'API librairie</b>";
+        String response = "<h1><b>Bonjour sur l'API librairie</b></h1><br/>";
 
         // Connexion à la base de données
         try (Connection connection = DatabaseConnection.getConnection()) {
             if (connection != null) {
-                response = "Connexion à la base de données réussie.";
+                response += "<h2>Connexion BDD : </h2><p>Connexion à la base de données réussie.</p><br/>";
+                // Link to all the existing API, useful to see the results
+                response += "<h3><a href='http://localhost:8000/api/auteurs'>API Auteurs</a></h2><br/>";
             } else {
                 response = "Erreur de connexion à la base de données.";
             }
