@@ -1,0 +1,48 @@
+BACKLOG :
+
+
+- Catalogue 
+
+US01 - Front + Back - En tant qu'utilisateur je souhaite pouvoir consulter les différents produits disponibles
+
+US03 - Front + Back - En tant qu'utilisateur je souhaite pouvoir faire des recherches dans le catalogue (nom, genre, prix...)
+
+
+- Panier
+
+US04 - Front - En tant qu'utilisateur je souhaite pouvoir ajouter des produits dans le panier
+US04 - Front - En tant qu'utilisateur je souhaite pouvoir supprimer des produits du panier
+
+
+- Facturation
+
+US05 - Back + Front - En tant qu'utilisateur je souhaite pouvoir valider une commande
+
+US06 - Back + Front - En tant qu'utilisateur je souhaite pouvoir annuler une commande (seulement si elle n'est pas envoyée)
+
+US07 - Back + Front - En tant qu'utilisateur je souhaite pouvoir consulter l'historique de mes commandes
+
+
+- Compte utilisateur
+
+US08 - Back + Front - En tant qu'utilisateur je souhaite pouvoir modifier mes informations personnelles
+US08-2 - Back + Front - En tant qu'utilisateur je souhaite pouvoir modifier les informations personnelles des clients
+
+US09 - Back + Front - En tant qu'utilisateur je souhaite pouvoir créer un compte
+US09-2 - Back + Front - En tant qu'utilisateur je souhaite pouvoir supprimer mon compte
+US12 - Back + Front - En tant qu'utilisateur je souhaite pouvoir me connecter
+
+
+- Admin
+
+US02 - Front + Back - En tant qu'admin je souhaite pouvoir ajouter des produits
+US02 - Front + Back - En tant qu'admin je souhaite pouvoir modifier des produits 
+US02 - Front + Back - En tant qu'admin je souhaite pouvoir supprimer des produits 
+
+US12 - Back + Front - En tant qu'admin je souhaite pouvoir modifier les droits d'un utilisateur
+
+US10 - Back + Front - En tant qu'admin je souhaite pouvoir voir toutes les commandes en cours
+US11 - Back + Front - En tant qu'admin je souhaite pouvoir mettre à jour l'état d'une commande
+
+
+

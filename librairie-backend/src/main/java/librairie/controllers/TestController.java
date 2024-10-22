@@ -1,18 +1,18 @@
-package librairie;
+package librairie.controllers;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import librairie.DatabaseConnection;
+
 /**
  * TEST HANDLER
  */
-public class CustomHandler implements HttpHandler {
+public class TestController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -21,13 +21,7 @@ public class CustomHandler implements HttpHandler {
         // Connexion à la base de données
         try (Connection connection = DatabaseConnection.getConnection()) {
             if (connection != null) {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM clients");
-
-                // Traiter les résultats de la requête
-                while (resultSet.next()) {
-                    response += "<br>" + resultSet.getString("nom");
-                }
+                response = "Connexion à la base de données réussie.";
             } else {
                 response = "Erreur de connexion à la base de données.";
             }
